@@ -1,135 +1,29 @@
+Warning message:
+package 'dplyr' was built under R version 4.5.2 
+Warning message:
+package 'httr' was built under R version 4.5.2 
 ℹ === PWHL Raw Scraper started ===
 
 ── Processing 2026 PWHL season ─────────────────────────────────────────────────
 ℹ Fetching 2026 PWHL schedule
 ℹ 101 completed games in schedule
-ℹ Fetching 2026 PWHL schedule
-✔ Fetched 2026 PWHL schedule [564ms]
+ℹ Fetching 2026 PWHL schedule✔ Fetched 2026 PWHL schedule [583ms]
 
 ℹ Scraping 101 games for 2026
-2026-04-08 08:55:15.12443: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:55:17.688515: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:55:20.080345: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:55:22.246373: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:55:24.588266: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:55:26.924565: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:55:29.111982: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:55:31.297987: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:55:33.68402: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:55:36.025674: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:55:38.096756: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:55:40.196687: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:55:42.532346: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:55:44.806026: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:55:47.018439: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:55:49.356524: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:55:51.611266: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:55:53.897785: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:55:56.054411: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:55:58.36963: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:56:00.977563: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:56:03.49551: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:56:05.936652: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:56:08.33531: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:56:10.651517: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
 ℹ   Progress: 25/101 games
-ℹ Scraping 101 games for 2026
-2026-04-08 08:56:13.12309: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:56:15.368281: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:56:17.734121: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:56:19.950572: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:56:22.184024: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:56:24.722759: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:56:27.197764: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:56:29.330278: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:56:31.955131: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:56:34.391735: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:56:36.560287: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:56:38.992975: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:56:41.325655: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:56:43.572129: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:56:45.568371: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:56:47.839885: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:56:49.964542: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:56:52.500539: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:56:54.653657: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:56:56.840687: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:56:59.076637: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:57:01.370556: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:57:03.609956: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:57:05.86767: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:57:08.142296: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-ℹ   Progress: 50/101 games
-ℹ Scraping 101 games for 2026
-2026-04-08 08:57:10.76955: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:57:13.375409: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:57:15.606524: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:57:17.846655: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:57:20.191629: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:57:22.459075: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:57:24.67876: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:57:26.844159: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:57:29.300147: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:57:31.638995: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:57:33.875127: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:57:36.134864: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:57:38.592507: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:57:40.809637: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:57:43.042717: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:57:45.366501: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:57:47.898412: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:57:50.414961: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:57:52.420408: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:57:54.88136: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:57:57.229912: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:57:59.393093: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:58:01.767892: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:58:04.077343: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:58:06.344001: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-ℹ   Progress: 75/101 games
-ℹ Scraping 101 games for 2026
-2026-04-08 08:58:08.913451: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:58:10.99423: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:58:13.290066: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:58:15.380365: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:58:17.552305: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:58:19.9198: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:58:22.235937: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:58:24.511027: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:58:26.689718: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:58:28.840585: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:58:30.995409: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:58:33.098954: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:58:35.381066: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:58:37.536134: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:58:39.748868: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:58:41.972773: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:58:44.4041: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:58:46.668976: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:58:48.926423: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:58:51.337673: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:58:53.530114: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:58:55.655979: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:58:58.440562: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:59:00.638268: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-2026-04-08 08:59:02.98317: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-ℹ   Progress: 100/101 games
-ℹ Scraping 101 games for 2026
-2026-04-08 08:59:05.085861: Error encountered: In argument: `game_id = as.numeric(.data$game_id)`.. Please verify the game_id and ensure it corresponds to a valid game in the PWHL.
-ℹ   Progress: 101/101 games
-ℹ Scraping 101 games for 2026
-✔ Scraped 101 games for 2026 [3m 52.4s]
+ℹ Scraping 101 games for 2026ℹ   Progress: 50/101 games
+ℹ Scraping 101 games for 2026ℹ   Progress: 75/101 games
+ℹ Scraping 101 games for 2026ℹ   Progress: 100/101 games
+ℹ Scraping 101 games for 2026ℹ   Progress: 101/101 games
+ℹ Scraping 101 games for 2026✔ Scraped 101 games for 2026 [4m 3.7s]
 
 ℹ Updating 2026 schedule with JSON links
 ✔ 101 of 120 games linked (288 raw, 288 final)
-ℹ Updating 2026 schedule with JSON links
-✔ Updated 2026 schedule with JSON links [211ms]
+ℹ Updating 2026 schedule with JSON links✔ Updated 2026 schedule with JSON links [152ms]
 
 ℹ Building master schedule
 ✔ 307 total schedule rows, 288 with final JSON
-ℹ Building master schedule
-ℹ === PWHL Raw Scraper complete ===
-ℹ Building master schedule
-ℹ Building master schedule
-── All done! ───────────────────────────────────────────────────────────────────
-ℹ Building master schedule
+ℹ Building master scheduleℹ === PWHL Raw Scraper complete ===
+ℹ Building master schedule
+ℹ Building master schedule── All done! ───────────────────────────────────────────────────────────────────
+ℹ Building master schedule
