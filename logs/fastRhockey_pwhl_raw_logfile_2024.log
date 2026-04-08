@@ -25,4 +25,7 @@ package 'httr' was built under R version 4.5.2
 ℹ Building master scheduleℹ === PWHL Raw Scraper complete ===
 ℹ Building master schedule
 ℹ Building master schedule── All done! ───────────────────────────────────────────────────────────────────
-ℹ Building master schedule
+ℹ Building master schedule[main 5539c83] PWHL Raw Updated (Start: 2024 End: 2024)
+ 2 files changed, 6 insertions(+), 4 deletions(-)
+To https://github.com/sportsdataverse/fastRhockey-pwhl-raw.git
+   6a3d697..5539c83  main -> main
