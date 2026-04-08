@@ -1,3 +1,5 @@
+Rescrape set to: TRUE
+=== Processing PWHL season 2026 ===
 From https://github.com/sportsdataverse/fastRhockey-pwhl-raw
    0ca96d8..d39a09f  main       -> origin/main
 error: Your local changes to the following files would be overwritten by merge:

@@ -1,6 +1,6 @@
 #!/bin/bash
 # Scrape raw PWHL game JSON and schedules
-# Usage: bash scripts/daily_pwhl_scraper.sh -s 2025 -e 2025
+# Usage: bash scripts/daily_pwhl_scraper.sh -s 2026 -e 2026 -r TRUE 2>&1 | tee "daily_pwhl.out"
 
 while getopts s:e:r: flag
 do
