@@ -60,13 +60,7 @@ if (is.na(opt$end_year)) opt$end_year <- opt$start_year
 season_vector <- opt$start_year:opt$end_year
 rescrape <- opt$rescrape
 
-# ── Logging ──────────────────────────────────────────────────────────────
-LOG_FILE <- glue::glue("logs/fastRhockey_pwhl_raw_logfile_{opt$start_year}.log")
-logging <- function(msg, level = "INFO") {
-  entry <- paste0(format(Sys.time(), "[%Y-%m-%d %H:%M:%S] "), level, ": ", msg)
-  cat(entry, "\n", file = LOG_FILE, append = TRUE)
-}
-logging("=== PWHL Raw Scraper started ===")
+cli::cli_alert_info("=== PWHL Raw Scraper started ===")
 
 
 RAW_REPO <- "sportsdataverse/fastRhockey-pwhl-raw"
@@ -265,7 +259,6 @@ download_game <- function(gid, process = TRUE,
 
 for (season_year in season_vector) {
   cli::cli_h1("Processing {season_year} PWHL season")
-  logging(glue("=== {season_year} PWHL season ==="))
 
 
   # ── STEP 1: Fetch and save schedule ──────────────────────────────────
@@ -308,7 +301,6 @@ for (season_year in season_vector) {
     dplyr::filter(grepl("Final", .data$game_status, ignore.case = TRUE))
 
   cli::cli_alert_info("{nrow(games)} completed games in schedule")
-  logging(glue("{nrow(games)} completed games in schedule"))
 
   if (nrow(games) == 0) {
     cli::cli_alert_warning("No completed games. Skipping season.")
@@ -396,7 +388,6 @@ for (season_year in season_vector) {
   cli::cli_alert_success(
     "{sum(sched$game_json)} of {nrow(sched)} games linked ({n_raw} raw, {n_final} final)"
   )
-  logging(glue("{sum(sched$game_json)} of {nrow(sched)} games linked ({n_raw} raw, {n_final} final)"))
 
   rm(games, games_to_scrape, sched)
   gc()
@@ -422,6 +413,5 @@ arrow::write_parquet(sched_all, "pwhl/pwhl_schedule_master.parquet", compression
 cli::cli_alert_success(
   "{nrow(sched_all)} total schedule rows, {sum(sched_all$game_json, na.rm = TRUE)} with final JSON"
 )
-logging(glue("Master: {nrow(sched_all)} schedule rows, {sum(sched_all$game_json, na.rm = TRUE)} with final JSON"))
-logging("=== PWHL Raw Scraper complete ===")
+cli::cli_alert_info("=== PWHL Raw Scraper complete ===")
 cli::cli_h1("All done!")
