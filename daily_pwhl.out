@@ -16,3 +16,18 @@ error: Your local changes to the following files would be overwritten by merge:
 	logs/fastRhockey_pwhl_raw_logfile_2026.log
 Please commit your changes or stash them before you merge.
 Aborting
+[main a8b763e] PWHL Raw Updated (Start: 2026 End: 2026)
+ 3 files changed, 35 insertions(+), 7 deletions(-)
+ create mode 100644 daily_pwhl.out
+ rewrite logs/fastRhockey_pwhl_raw_logfile_2026.log (100%)
+error: Your local changes to the following files would be overwritten by merge:
+	logs/fastRhockey_pwhl_raw_logfile_2026.log
+Please commit your changes or stash them before you merge.
+Aborting
+To https://github.com/sportsdataverse/fastRhockey-pwhl-raw.git
+ ! [rejected]        main -> main (non-fast-forward)
+error: failed to push some refs to 'https://github.com/sportsdataverse/fastRhockey-pwhl-raw.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
