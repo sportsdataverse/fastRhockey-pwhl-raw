@@ -7,7 +7,7 @@ package 'httr' was built under R version 4.5.2
 ── Processing 2026 PWHL season ─────────────────────────────────────────────────
 ℹ Fetching 2026 PWHL schedule
 ℹ 101 completed games in schedule
-ℹ Fetching 2026 PWHL schedule✔ Fetched 2026 PWHL schedule [583ms]
+ℹ Fetching 2026 PWHL schedule✔ Fetched 2026 PWHL schedule [627ms]
 
 ℹ Scraping 101 games for 2026
 ℹ   Progress: 25/101 games
@@ -15,21 +15,15 @@ package 'httr' was built under R version 4.5.2
 ℹ Scraping 101 games for 2026ℹ   Progress: 75/101 games
 ℹ Scraping 101 games for 2026ℹ   Progress: 100/101 games
 ℹ Scraping 101 games for 2026ℹ   Progress: 101/101 games
-ℹ Scraping 101 games for 2026✔ Scraped 101 games for 2026 [4m 3.7s]
+ℹ Scraping 101 games for 2026✔ Scraped 101 games for 2026 [4m 12.2s]
 
 ℹ Updating 2026 schedule with JSON links
 ✔ 101 of 120 games linked (288 raw, 288 final)
-ℹ Updating 2026 schedule with JSON links✔ Updated 2026 schedule with JSON links [152ms]
+ℹ Updating 2026 schedule with JSON links✔ Updated 2026 schedule with JSON links [166ms]
 
 ℹ Building master schedule
 ✔ 307 total schedule rows, 288 with final JSON
 ℹ Building master scheduleℹ === PWHL Raw Scraper complete ===
 ℹ Building master schedule
 ℹ Building master schedule── All done! ───────────────────────────────────────────────────────────────────
-ℹ Building master schedule[main a3cb554] PWHL Raw Updated (Start: 2026 End: 2026)
- 106 files changed, 174 insertions(+), 237 deletions(-)
- rewrite logs/fastRhockey_pwhl_raw_logfile_2026.log (97%)
- rewrite pwhl/schedules/parquet/pwhl_schedule_2026.parquet (93%)
- rewrite pwhl/schedules/rds/pwhl_schedule_2026.rds (80%)
-To https://github.com/sportsdataverse/fastRhockey-pwhl-raw.git
-   b5bb1be..a3cb554  main -> main
+ℹ Building master schedule
