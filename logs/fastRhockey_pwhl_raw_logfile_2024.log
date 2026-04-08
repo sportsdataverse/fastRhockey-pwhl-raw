@@ -1,0 +1,6 @@
+[2026-04-08 03:22:43] INFO: === PWHL Raw Scraper started === 
+[2026-04-08 03:22:43] INFO: === 2024 PWHL season === 
+[2026-04-08 03:22:44] INFO: 85 completed games in schedule 
+[2026-04-08 03:26:53] INFO: 85 of 85 games linked (85 raw, 85 final) 
+[2026-04-08 03:26:54] INFO: Master: 85 schedule rows, 85 with final JSON 
+[2026-04-08 03:26:54] INFO: === PWHL Raw Scraper complete === 
