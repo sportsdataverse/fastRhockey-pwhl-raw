@@ -97,6 +97,382 @@ PATH_FINAL <- "pwhl/json/final"
 
 
 # ═══════════════════════════════════════════════════════════════════════
+# Flat-dataset parsers
+#
+# These extract per-game flat data frames directly from the parsed
+# `summary_raw` (statviewfeed/gameSummary) and `gc_raw` (gc/gamesummary)
+# structures, so the final JSON contains compile-ready tables matching
+# the PHF JSON contract: team_box, scoring, penalties, three_stars,
+# officials, shots_by_period, shootout, game_rosters, game_info.
+#
+# Inputs are parsed lists (jsonlite::parse_json(simplifyVector = FALSE)).
+# All parsers tolerate missing fields and return NULL or zero-row frames
+# rather than erroring.
+# ═══════════════════════════════════════════════════════════════════════
+
+# Local null-coalesce so we don't depend on rlang/base R 4.4+ being loaded.
+`%||%` <- function(a, b) if (is.null(a)) b else a
+
+.null2na <- function(x, default = NA) {
+  if (is.null(x) || length(x) == 0) default else x[[1]]
+}
+
+.as_int <- function(x, default = NA_integer_) {
+  v <- .null2na(x, default)
+  suppressWarnings(as.integer(v))
+}
+
+.as_num <- function(x, default = NA_real_) {
+  v <- .null2na(x, default)
+  suppressWarnings(as.numeric(v))
+}
+
+.as_chr <- function(x, default = NA_character_) {
+  v <- .null2na(x, default)
+  if (is.na(v)) NA_character_ else as.character(v)
+}
+
+.parse_game_info <- function(raw, gid) {
+  s <- raw$summary_raw
+  if (is.null(s)) {
+    return(data.frame(game_id = as.integer(gid), stringsAsFactors = FALSE))
+  }
+  d  <- s$details %||% list()
+  ht <- s$homeTeam$info %||% list()
+  vt <- s$visitingTeam$info %||% list()
+  hs <- s$homeTeam$stats %||% list()
+  vs <- s$visitingTeam$stats %||% list()
+  data.frame(
+    game_id         = as.integer(gid),
+    game_number     = .as_chr(d$gameNumber),
+    game_date       = .as_chr(d$date),
+    game_date_iso   = .as_chr(d$GameDateISO8601),
+    start_time      = .as_chr(d$startTime),
+    end_time        = .as_chr(d$endTime),
+    game_duration   = .as_chr(d$duration),
+    game_venue      = .as_chr(d$venue),
+    attendance      = .as_int(d$attendance, 0L),
+    game_status     = .as_chr(d$status),
+    game_season_id  = .as_int(d$seasonId),
+    started         = .as_int(d$started, 0L),
+    final           = .as_int(d$final, 0L),
+    home_team_id    = .as_int(ht$id),
+    home_team       = .as_chr(ht$name),
+    home_team_abbr  = .as_chr(ht$abbreviation),
+    home_score      = .as_int(hs$goals, 0L),
+    away_team_id    = .as_int(vt$id),
+    away_team       = .as_chr(vt$name),
+    away_team_abbr  = .as_chr(vt$abbreviation),
+    away_score      = .as_int(vs$goals, 0L),
+    has_shootout    = .as_int(s$hasShootout, 0L),
+    game_report_url = .as_chr(d$gameReportUrl),
+    boxscore_url    = .as_chr(d$textBoxscoreUrl),
+    stringsAsFactors = FALSE
+  )
+}
+
+.parse_team_box <- function(raw, gid) {
+  s <- raw$summary_raw
+  if (is.null(s)) return(NULL)
+
+  one <- function(side, side_label) {
+    info  <- side$info  %||% list()
+    stats <- side$stats %||% list()
+    rec   <- side$seasonStats$teamRecord %||% list()
+    data.frame(
+      game_id              = as.integer(gid),
+      team_id              = .as_int(info$id),
+      team                 = .as_chr(info$name),
+      team_abbr            = .as_chr(info$abbreviation),
+      team_side            = side_label,
+      shots                = .as_int(stats$shots, 0L),
+      goals                = .as_int(stats$goals, 0L),
+      hits                 = .as_int(stats$hits, 0L),
+      pp_goals             = .as_int(stats$powerPlayGoals, 0L),
+      pp_opportunities     = .as_int(stats$powerPlayOpportunities, 0L),
+      goal_count           = .as_int(stats$goalCount, 0L),
+      assist_count         = .as_int(stats$assistCount, 0L),
+      penalty_minutes      = .as_int(stats$penaltyMinuteCount, 0L),
+      infraction_count     = .as_int(stats$infractionCount, 0L),
+      faceoff_attempts     = .as_int(stats$faceoffAttempts, 0L),
+      faceoff_wins         = .as_int(stats$faceoffWins, 0L),
+      faceoff_win_pct      = .as_num(stats$faceoffWinPercentage),
+      season_wins          = .as_int(rec$wins, 0L),
+      season_losses        = .as_int(rec$losses, 0L),
+      season_ot_wins       = .as_int(rec$OTWins, 0L),
+      season_ot_losses     = .as_int(rec$OTLosses, 0L),
+      season_so_losses     = .as_int(rec$SOLosses, 0L),
+      season_record        = .as_chr(rec$formattedRecord),
+      stringsAsFactors     = FALSE
+    )
+  }
+
+  rbind(
+    one(s$homeTeam,     "home"),
+    one(s$visitingTeam, "away")
+  )
+}
+
+.parse_scoring_summary <- function(raw, gid) {
+  s <- raw$summary_raw
+  periods <- s$periods
+  if (is.null(periods) || length(periods) == 0) return(NULL)
+
+  rows <- list()
+  for (p in periods) {
+    pinfo <- p$info %||% list()
+    goals <- p$goals
+    if (is.null(goals) || length(goals) == 0) next
+    for (g in goals) {
+      team   <- g$team        %||% list()
+      scorer <- g$scoredBy    %||% list()
+      props  <- g$properties  %||% list()
+      assists <- g$assists    %||% list()
+      a1 <- if (length(assists) >= 1) assists[[1]] else list()
+      a2 <- if (length(assists) >= 2) assists[[2]] else list()
+      rows[[length(rows) + 1]] <- data.frame(
+        game_id            = as.integer(gid),
+        period_id          = .as_int(pinfo$id),
+        period             = .as_chr(pinfo$longName),
+        time               = .as_chr(g$time),
+        team_id            = .as_int(team$id),
+        team               = .as_chr(team$name),
+        team_abbr          = .as_chr(team$abbreviation),
+        game_goal_id       = .as_int(g$game_goal_id),
+        scorer_goal_number = .as_int(g$scorerGoalNumber),
+        scorer_id          = .as_int(scorer$id),
+        scorer_first       = .as_chr(scorer$firstName),
+        scorer_last        = .as_chr(scorer$lastName),
+        scorer_position    = .as_chr(scorer$position),
+        assist_1_id        = .as_int(a1$id),
+        assist_1_first     = .as_chr(a1$firstName),
+        assist_1_last      = .as_chr(a1$lastName),
+        assist_2_id        = .as_int(a2$id),
+        assist_2_first     = .as_chr(a2$firstName),
+        assist_2_last      = .as_chr(a2$lastName),
+        is_power_play      = .as_int(props$isPowerPlay, 0L),
+        is_short_handed    = .as_int(props$isShortHanded, 0L),
+        is_empty_net       = .as_int(props$isEmptyNet, 0L),
+        is_penalty_shot    = .as_int(props$isPenaltyShot, 0L),
+        is_insurance       = .as_int(props$isInsuranceGoal, 0L),
+        is_game_winning    = .as_int(props$isGameWinningGoal, 0L),
+        x_location         = .as_num(g$xLocation),
+        y_location         = .as_num(g$yLocation),
+        stringsAsFactors   = FALSE
+      )
+    }
+  }
+  if (length(rows) == 0) return(NULL)
+  do.call(rbind, rows)
+}
+
+.parse_penalty_summary <- function(raw, gid) {
+  s <- raw$summary_raw
+  periods <- s$periods
+  if (is.null(periods) || length(periods) == 0) return(NULL)
+
+  rows <- list()
+  for (p in periods) {
+    pinfo    <- p$info %||% list()
+    penalties <- p$penalties
+    if (is.null(penalties) || length(penalties) == 0) next
+    for (pen in penalties) {
+      against  <- pen$againstTeam %||% list()
+      taken    <- pen$takenBy     %||% list()
+      served   <- pen$servedBy    %||% list()
+      rows[[length(rows) + 1]] <- data.frame(
+        game_id           = as.integer(gid),
+        period_id         = .as_int(pinfo$id),
+        period            = .as_chr(pinfo$longName),
+        time              = .as_chr(pen$time),
+        team_id           = .as_int(against$id),
+        team              = .as_chr(against$name),
+        team_abbr         = .as_chr(against$abbreviation),
+        game_penalty_id   = .as_int(pen$game_penalty_id),
+        minutes           = .as_num(pen$minutes),
+        description       = .as_chr(pen$description),
+        rule_number       = .as_chr(pen$ruleNumber),
+        is_power_play     = as.integer(isTRUE(pen$isPowerPlay)),
+        is_bench          = as.integer(isTRUE(pen$isBench)),
+        taken_by_id       = .as_int(taken$id),
+        taken_by_first    = .as_chr(taken$firstName),
+        taken_by_last     = .as_chr(taken$lastName),
+        taken_by_position = .as_chr(taken$position),
+        served_by_id      = .as_int(served$id),
+        served_by_first   = .as_chr(served$firstName),
+        served_by_last    = .as_chr(served$lastName),
+        stringsAsFactors  = FALSE
+      )
+    }
+  }
+  if (length(rows) == 0) return(NULL)
+  do.call(rbind, rows)
+}
+
+.parse_three_stars <- function(raw, gid) {
+  s <- raw$summary_raw
+  mvps <- s$mostValuablePlayers
+  if (is.null(mvps) || length(mvps) == 0) return(NULL)
+  rows <- list()
+  for (i in seq_along(mvps)) {
+    m      <- mvps[[i]]
+    team   <- m$team %||% list()
+    pinfo  <- m$player$info %||% list()
+    pstats <- m$player$stats %||% list()
+    rows[[i]] <- data.frame(
+      game_id          = as.integer(gid),
+      star             = as.integer(i),
+      team_id          = .as_int(team$id),
+      team             = .as_chr(team$name),
+      team_abbr        = .as_chr(team$abbreviation),
+      player_id        = .as_int(pinfo$id),
+      first_name       = .as_chr(pinfo$firstName),
+      last_name        = .as_chr(pinfo$lastName),
+      jersey_number    = .as_int(pinfo$jerseyNumber),
+      position         = .as_chr(pinfo$position),
+      is_goalie        = as.integer(isTRUE(m$isGoalie)),
+      is_home          = .as_int(m$homeTeam, 0L),
+      goals            = .as_int(pstats$goals, 0L),
+      assists          = .as_int(pstats$assists, 0L),
+      points           = .as_int(pstats$points, 0L),
+      shots            = .as_int(pstats$shots, 0L),
+      saves            = .as_int(pstats$saves, 0L),
+      shots_against    = .as_int(pstats$shotsAgainst, 0L),
+      goals_against    = .as_int(pstats$goalsAgainst, 0L),
+      time_on_ice      = .as_chr(pstats$toi %||% pstats$timeOnIce),
+      stringsAsFactors = FALSE
+    )
+  }
+  do.call(rbind, rows)
+}
+
+.parse_officials <- function(raw, gid) {
+  s <- raw$summary_raw
+  collect <- function(lst, role) {
+    if (is.null(lst) || length(lst) == 0) return(NULL)
+    do.call(rbind, lapply(lst, function(o) {
+      data.frame(
+        game_id          = as.integer(gid),
+        role             = role,
+        first_name       = .as_chr(o$firstName),
+        last_name        = .as_chr(o$lastName),
+        jersey_number    = .as_int(o$jerseyNumber),
+        official_role    = .as_chr(o$role),
+        stringsAsFactors = FALSE
+      )
+    }))
+  }
+  out <- rbind(
+    collect(s$referees,  "Referee"),
+    collect(s$linesmen,  "Linesperson"),
+    collect(s$scorekeepers, "Scorekeeper")
+  )
+  if (is.null(out) || nrow(out) == 0) return(NULL)
+  out
+}
+
+.parse_shots_by_period <- function(raw, gid) {
+  s <- raw$summary_raw
+  periods <- s$periods
+  if (is.null(periods) || length(periods) == 0) return(NULL)
+  rows <- lapply(periods, function(p) {
+    pinfo <- p$info %||% list()
+    pstat <- p$stats %||% list()
+    data.frame(
+      game_id          = as.integer(gid),
+      period_id        = .as_int(pinfo$id),
+      period           = .as_chr(pinfo$longName),
+      home_goals       = .as_int(pstat$homeGoals, 0L),
+      home_shots       = .as_int(pstat$homeShots, 0L),
+      away_goals       = .as_int(pstat$visitingGoals, 0L),
+      away_shots       = .as_int(pstat$visitingShots, 0L),
+      stringsAsFactors = FALSE
+    )
+  })
+  do.call(rbind, rows)
+}
+
+.parse_shootout <- function(raw, gid) {
+  s <- raw$summary_raw
+  if (is.null(s) || !isTRUE(s$hasShootout)) return(NULL)
+  ps <- s$penaltyShots
+  if (is.null(ps)) return(NULL)
+  collect <- function(lst, side) {
+    if (is.null(lst) || length(lst) == 0) return(NULL)
+    do.call(rbind, lapply(seq_along(lst), function(i) {
+      sh <- lst[[i]]
+      shooter <- sh$shooter %||% sh$player %||% list()
+      goalie  <- sh$goalie %||% list()
+      data.frame(
+        game_id          = as.integer(gid),
+        round            = as.integer(i),
+        team_side        = side,
+        shooter_id       = .as_int(shooter$id),
+        shooter_first    = .as_chr(shooter$firstName),
+        shooter_last     = .as_chr(shooter$lastName),
+        goalie_id        = .as_int(goalie$id),
+        goalie_first     = .as_chr(goalie$firstName),
+        goalie_last      = .as_chr(goalie$lastName),
+        is_goal          = as.integer(isTRUE(sh$isGoal)),
+        stringsAsFactors = FALSE
+      )
+    }))
+  }
+  out <- rbind(
+    collect(ps$homeTeam,     "home"),
+    collect(ps$visitingTeam, "away")
+  )
+  if (is.null(out) || nrow(out) == 0) return(NULL)
+  out
+}
+
+.parse_game_rosters <- function(raw, gid) {
+  s <- raw$summary_raw
+  if (is.null(s)) return(NULL)
+
+  side <- function(team, side_label) {
+    info <- team$info %||% list()
+    team_id <- .as_int(info$id)
+    team_nm <- .as_chr(info$name)
+    team_ab <- .as_chr(info$abbreviation)
+
+    one <- function(p, kind) {
+      pinfo  <- p$info  %||% list()
+      data.frame(
+        game_id          = as.integer(gid),
+        team_id          = team_id,
+        team             = team_nm,
+        team_abbr        = team_ab,
+        team_side        = side_label,
+        player_type      = kind,
+        player_id        = .as_int(pinfo$id),
+        first_name       = .as_chr(pinfo$firstName),
+        last_name        = .as_chr(pinfo$lastName),
+        jersey_number    = .as_int(pinfo$jerseyNumber),
+        position         = .as_chr(pinfo$position),
+        birth_date       = .as_chr(pinfo$birthDate),
+        starting         = .as_int(p$starting, 0L),
+        status           = .as_chr(p$status),
+        stringsAsFactors = FALSE
+      )
+    }
+
+    rbind(
+      if (length(team$skaters) > 0) do.call(rbind, lapply(team$skaters, one, kind = "skater")) else NULL,
+      if (length(team$goalies) > 0) do.call(rbind, lapply(team$goalies, one, kind = "goalie")) else NULL
+    )
+  }
+
+  out <- rbind(
+    side(s$homeTeam,     "home"),
+    side(s$visitingTeam, "away")
+  )
+  if (is.null(out) || nrow(out) == 0) return(NULL)
+  out
+}
+
+
+# ═══════════════════════════════════════════════════════════════════════
 # build_raw_json: fetch HockeyTech endpoints for a PWHL game
 #
 # Stores:
@@ -190,30 +566,79 @@ build_final_json <- function(gid, raw_data = NULL) {
     }
   )
 
-  # ── Processed game info via fastRhockey ──
+  # ── Flat datasets parsed from raw_data (no extra API calls) ──
+  # game_info, team_box, scoring_summary, penalty_summary, three_stars,
+  # officials, shots_by_period, shootout_summary, game_rosters
   tryCatch(
     {
-      info <- fastRhockey::pwhl_game_info(game_id = gid)
-      if (is.data.frame(info) && nrow(info) > 0) {
-        final$game_info <- info
-      }
+      gi <- .parse_game_info(raw_data, gid)
+      if (is.data.frame(gi) && nrow(gi) > 0) final$game_info <- gi
     },
-    error = function(e) {
-      cli::cli_alert_warning("Game info failed for {gid}: {conditionMessage(e)}")
-    }
+    error = function(e) cli::cli_alert_warning("game_info parse failed for {gid}: {conditionMessage(e)}")
   )
 
-  # ── Processed game summary via fastRhockey ──
   tryCatch(
     {
-      gs <- fastRhockey::pwhl_game_summary(game_id = gid)
-      if (is.list(gs)) {
-        final$game_summary <- gs
-      }
+      tb <- .parse_team_box(raw_data, gid)
+      if (is.data.frame(tb) && nrow(tb) > 0) final$team_box <- tb
     },
-    error = function(e) {
-      cli::cli_alert_warning("Game summary failed for {gid}: {conditionMessage(e)}")
-    }
+    error = function(e) cli::cli_alert_warning("team_box parse failed for {gid}: {conditionMessage(e)}")
+  )
+
+  tryCatch(
+    {
+      sc <- .parse_scoring_summary(raw_data, gid)
+      if (is.data.frame(sc) && nrow(sc) > 0) final$scoring_summary <- sc
+    },
+    error = function(e) cli::cli_alert_warning("scoring_summary parse failed for {gid}: {conditionMessage(e)}")
+  )
+
+  tryCatch(
+    {
+      pn <- .parse_penalty_summary(raw_data, gid)
+      if (is.data.frame(pn) && nrow(pn) > 0) final$penalty_summary <- pn
+    },
+    error = function(e) cli::cli_alert_warning("penalty_summary parse failed for {gid}: {conditionMessage(e)}")
+  )
+
+  tryCatch(
+    {
+      ts <- .parse_three_stars(raw_data, gid)
+      if (is.data.frame(ts) && nrow(ts) > 0) final$three_stars <- ts
+    },
+    error = function(e) cli::cli_alert_warning("three_stars parse failed for {gid}: {conditionMessage(e)}")
+  )
+
+  tryCatch(
+    {
+      of <- .parse_officials(raw_data, gid)
+      if (is.data.frame(of) && nrow(of) > 0) final$officials <- of
+    },
+    error = function(e) cli::cli_alert_warning("officials parse failed for {gid}: {conditionMessage(e)}")
+  )
+
+  tryCatch(
+    {
+      sp <- .parse_shots_by_period(raw_data, gid)
+      if (is.data.frame(sp) && nrow(sp) > 0) final$shots_by_period <- sp
+    },
+    error = function(e) cli::cli_alert_warning("shots_by_period parse failed for {gid}: {conditionMessage(e)}")
+  )
+
+  tryCatch(
+    {
+      so <- .parse_shootout(raw_data, gid)
+      if (is.data.frame(so) && nrow(so) > 0) final$shootout_summary <- so
+    },
+    error = function(e) cli::cli_alert_warning("shootout_summary parse failed for {gid}: {conditionMessage(e)}")
+  )
+
+  tryCatch(
+    {
+      gr <- .parse_game_rosters(raw_data, gid)
+      if (is.data.frame(gr) && nrow(gr) > 0) final$game_rosters <- gr
+    },
+    error = function(e) cli::cli_alert_warning("game_rosters parse failed for {gid}: {conditionMessage(e)}")
   )
 
   final
