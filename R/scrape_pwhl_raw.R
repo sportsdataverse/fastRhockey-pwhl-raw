@@ -1,13 +1,19 @@
 ## Scrape raw PWHL game JSON and schedules into fastRhockey-pwhl-raw
+##
+## NOTE ON SEASON CONVENTION:
+##   -s / -e refer to the *end year* of the season (e.g., 2026 for 2025-26).
+##   This matches `fastRhockey::most_recent_pwhl_season()` which returns the
+##   end year. `fastRhockey::pwhl_schedule()` also takes the end year directly.
+##
 ## Usage:
-##   Rscript R/scrape_pwhl_raw.R -s 2024           (single season)
-##   Rscript R/scrape_pwhl_raw.R -s 2024 -e 2025   (range of seasons)
-##   Rscript R/scrape_pwhl_raw.R -s 2025 -r TRUE   (rescrape existing)
+##   Rscript R/scrape_pwhl_raw.R -s 2026           (single season: 2025-26)
+##   Rscript R/scrape_pwhl_raw.R -s 2024 -e 2026   (range: 2023-24 through 2025-26)
+##   Rscript R/scrape_pwhl_raw.R -s 2026 -r TRUE   (rescrape existing)
 ##
 ## Outputs:
 ##   pwhl/json/raw/{game_id}.json    — raw API data from HockeyTech endpoints
 ##   pwhl/json/final/{game_id}.json  — processed via fastRhockey pipeline
-##   pwhl/schedules/{rds,parquet}/pwhl_schedule_{year}.*
+##   pwhl/schedules/{rds,parquet}/pwhl_schedule_{end_year}.*
 ##     (includes game_json, game_json_url pointing to final/)
 ##   pwhl/pwhl_schedule_master.{rds,parquet}
 
@@ -26,16 +32,16 @@ option_list <- list(
   optparse::make_option(
     c("-s", "--start_year"),
     action = "store",
-    default = fastRhockey:::most_recent_pwhl_season(),
+    default = fastRhockey::most_recent_pwhl_season(),
     type = "integer",
-    help = "Start year of the seasons to process [default: current season]"
+    help = "Start season's end year to process, e.g. 2026 for 2025-26 [default: most recent]"
   ),
   optparse::make_option(
     c("-e", "--end_year"),
     action = "store",
     default = NA_integer_,
     type = "integer",
-    help = "End year of the seasons to process [default: same as start_year]"
+    help = "End season's end year to process [default: same as start_year]"
   ),
   optparse::make_option(
     c("-r", "--rescrape"),
