@@ -1,0 +1,51 @@
+Package: fastRhockey.pwhl.raw
+Title: Functions to Scrape Professional Women's Hockey League Raw Game Data
+Version: 1.0.0
+Authors@R: c(
+    person(given = "Ben", family = "Howell", email = "benhowell71@gmail.com", role = c("aut")),
+    person(given = "Saiem", family = "Gilani", role = c("aut", "cre"), email = "saiem.gilani@gmail.com", comment = c(ORCID = "0000-0002-7194-9067")),
+    person(given = "Alyssa", family = "Longmuir", email = "aklongmuir@gmail.com", role = c("ctb"))
+  )
+Description: A utility to scrape raw play-by-play data, game summaries,
+    and statistics from the Professional Women's Hockey League <https://www.thepwhl.com/>
+    via the HockeyTech API.
+License: MIT + file LICENSE
+URL: https://fastRhockey.sportsdataverse.org/,
+    https://github.com/sportsdataverse/fastRhockey
+BugReports: https://github.com/sportsdataverse/fastRhockey/issues
+Depends:
+  R (>= 4.0.0)
+Imports:
+    arrow (>= 5.0.0),
+    cli (>= 3.4.1),
+    data.table (>= 1.14.0),
+    dplyr (>= 1.0.10),
+    glue (>= 1.4.2),
+    httr (>= 0.5),
+    janitor,
+    jsonlite,
+    lifecycle (>= 1.0.0),
+    lubridate,
+    magrittr,
+    optparse (>= 1.6.2),
+    purrr (>= 1.0.0),
+    Rcpp (>= 1.0.7),
+    RcppParallel (>= 5.1.4),
+    rlang (>= 1.0.4),
+    rvest (>= 1.0.0),
+    stringr (>= 1.3.0),
+    tibble (>= 3.0),
+    tidyr (>= 1.0.0),
+    usethis (>= 1.6.0)
+Remotes:
+    sportsdataverse/fastRhockey
+Suggests:
+    crayon (>= 1.3.4),
+    curl,
+    testthat (>= 3.0.0),
+    xml2 (>= 1.3)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Config/testthat/edition: 3
+LazyData: true
