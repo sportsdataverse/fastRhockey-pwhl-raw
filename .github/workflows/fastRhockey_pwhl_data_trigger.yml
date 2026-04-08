@@ -1,0 +1,20 @@
+on: [push, workflow_dispatch]
+
+name: fastRhockey PWHL Data trigger
+
+jobs:
+    fastRhockey_pwhl_data_trigger:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Trigger fastRhockey PWHL Data
+              uses: peter-evans/repository-dispatch@v3
+              with:
+                  token: ${{ secrets.SDV_GH_TOKEN }}
+                  repository: sportsdataverse/fastRhockey-pwhl-data
+                  event-type: daily_pwhl_data
+                  client-payload: |-
+                    {
+                      "ref": "refs/heads/main",
+                      "event_name": "daily_pwhl_data",
+                      "commit_message": "${{ github.event.head_commit.message }}"
+                    }
