@@ -2,23 +2,23 @@
 
 ── Processing 2026 PWHL season ─────────────────────────────────────────────────
 ℹ Fetching 2026 PWHL schedule
-ℹ 111 completed games in schedule
-ℹ Fetching 2026 PWHL schedule✔ Fetched 2026 PWHL schedule [846ms]
+ℹ 112 completed games in schedule
+ℹ Fetching 2026 PWHL schedule✔ Fetched 2026 PWHL schedule [725ms]
 
-ℹ Scraping 111 games for 2026
-ℹ   Progress: 25/111 games
-ℹ Scraping 111 games for 2026ℹ   Progress: 50/111 games
-ℹ Scraping 111 games for 2026ℹ   Progress: 75/111 games
-ℹ Scraping 111 games for 2026ℹ   Progress: 100/111 games
-ℹ Scraping 111 games for 2026ℹ   Progress: 111/111 games
-ℹ Scraping 111 games for 2026✔ Scraped 111 games for 2026 [5m 48s]
+ℹ Scraping 112 games for 2026
+ℹ   Progress: 25/112 games
+ℹ Scraping 112 games for 2026ℹ   Progress: 50/112 games
+ℹ Scraping 112 games for 2026ℹ   Progress: 75/112 games
+ℹ Scraping 112 games for 2026ℹ   Progress: 100/112 games
+ℹ Scraping 112 games for 2026ℹ   Progress: 112/112 games
+ℹ Scraping 112 games for 2026✔ Scraped 112 games for 2026 [5m 1.3s]
 
 ℹ Updating 2026 schedule with JSON links
-✔ 111 of 120 games linked (298 raw, 298 final)
-ℹ Updating 2026 schedule with JSON links✔ Updated 2026 schedule with JSON links [203ms]
+✔ 112 of 120 games linked (299 raw, 299 final)
+ℹ Updating 2026 schedule with JSON links✔ Updated 2026 schedule with JSON links [249ms]
 
 ℹ Building master schedule
-✔ 307 total schedule rows, 298 with final JSON
+✔ 307 total schedule rows, 299 with final JSON
 ℹ Building master scheduleℹ === PWHL Raw Scraper complete ===
 ℹ Building master schedule
 ℹ Building master schedule── All done! ───────────────────────────────────────────────────────────────────
