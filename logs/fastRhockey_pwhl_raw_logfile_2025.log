@@ -23,4 +23,10 @@
 ℹ Building master scheduleℹ === PWHL Raw Scraper complete ===
 ℹ Building master schedule
 ℹ Building master schedule── All done! ───────────────────────────────────────────────────────────────────
-ℹ Building master schedule
+ℹ Building master schedule[main eb3c48e] PWHL Raw Updated (Start: 2025 End: 2025)
+ 212 files changed, 286 insertions(+), 239 deletions(-)
+ rewrite pwhl/pwhl_schedule_master.rds (99%)
+ rewrite pwhl/schedules/parquet/pwhl_schedule_2025.parquet (91%)
+ rewrite pwhl/schedules/rds/pwhl_schedule_2025.rds (100%)
+To https://github.com/sportsdataverse/fastRhockey-pwhl-raw.git
+   7ca291a..eb3c48e  main -> main
