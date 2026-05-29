@@ -18,6 +18,9 @@
 # Output files from R CMD check
 /*.Rcheck/
 
+# Outer stdout capture from cron-style 'bash scripts/daily_pwhl_scraper.sh ... > daily_pwhl.out'
+daily_pwhl.out
+
 # RStudio files
 .Rproj.user/
 
