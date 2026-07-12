@@ -513,6 +513,17 @@ build_raw_json <- function(gid) {
   )
   gc_raw <- .safe_pwhl_api(gc_url)
 
+  # Game shifts endpoint (modulekit/gameshifts). Built via fastRhockey's own URL
+  # helper so we inherit the per-view HockeyTech key from its registry rather than
+  # hard-coding it (modulekit uses a different key than statviewfeed/gc). The
+  # JSONP wrapper is angular.callbacks._0(...), which .safe_pwhl_api strips.
+  shifts_raw <- tryCatch(
+    .safe_pwhl_api(
+      fastRhockey:::.hockeytech_url("pwhl", "modulekit", "gameshifts", list(game_id = gid))
+    ),
+    error = function(e) NULL
+  )
+
   if (is.null(pbp_raw) && is.null(summary_raw)) {
     return(NULL)
   }
@@ -520,7 +531,8 @@ build_raw_json <- function(gid) {
   list(
     pbp_raw = pbp_raw,
     summary_raw = summary_raw,
-    gc_raw = gc_raw
+    gc_raw = gc_raw,
+    shifts_raw = shifts_raw
   )
 }
 
@@ -549,6 +561,22 @@ build_final_json <- function(gid, raw_data = NULL) {
     },
     error = function(e) {
       cli::cli_alert_warning("PBP pipeline failed for {gid}: {conditionMessage(e)}")
+    }
+  )
+
+  # ── Processed shifts via fastRhockey (per-stint on-ice stints) ──
+  # Feeds the standalone pwhl/shifts dataset and the pbp on_ice/strength_state
+  # derivation in fastRhockey-pwhl-data. `final$pbp` already carries
+  # on_ice_home/away from pwhl_pbp() above (which fetches gameshifts internally).
+  tryCatch(
+    {
+      sh <- fastRhockey::pwhl_game_shifts(game_id = gid)
+      if (is.data.frame(sh) && nrow(sh) > 0) {
+        final$shifts <- sh
+      }
+    },
+    error = function(e) {
+      cli::cli_alert_warning("Shifts pipeline failed for {gid}: {conditionMessage(e)}")
     }
   )
 
