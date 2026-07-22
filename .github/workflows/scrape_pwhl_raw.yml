@@ -56,7 +56,12 @@ jobs:
       - name: Setting up R dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          cache-version: 1
+          # Bumped 2026-07-22: the cache is keyed on DESCRIPTION, which never changes for a
+          # GitHub remote, so a months-old fastRhockey persisted here. It predated
+          # pwhl_game_shifts, and the scraper's per-game tryCatch turned that into silently
+          # dropping the shifts block from all 133 games of 2026. Bump this whenever the
+          # scraper starts depending on newer fastRhockey API.
+          cache-version: 2
           extra-packages: |
             sportsdataverse/fastRhockey
 

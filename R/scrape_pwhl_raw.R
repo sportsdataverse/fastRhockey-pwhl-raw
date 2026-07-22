@@ -62,6 +62,31 @@ rescrape <- opt$rescrape
 
 cli::cli_alert_info("=== PWHL Raw Scraper started ===")
 
+# ── Preflight: the installed fastRhockey must expose the API this scraper needs ──
+#
+# Each enrichment block below is wrapped in a `tryCatch` so one bad game cannot
+# abort a season. That is right for per-game faults, but it also means a
+# *systematically* missing dependency degrades every game in silence: on
+# 2026-07-18 a cached fastRhockey without `pwhl_game_shifts` dropped the shifts
+# block from all 133 games of the 2026 season, and the whole-file overwrite made
+# the loss permanent. `setup-r-dependencies` keys its cache on DESCRIPTION, which
+# never changes for a GitHub remote, so a stale package can persist for months.
+#
+# Fail loudly and up front instead: a missing function is an environment bug, not
+# a data condition, and it should never reach the writers.
+.required_api <- c("pwhl_pbp", "pwhl_game_shifts", "pwhl_player_box")
+.missing_api <- .required_api[
+  !vapply(.required_api, exists, logical(1), where = asNamespace("fastRhockey"))
+]
+if (length(.missing_api) > 0) {
+  cli::cli_abort(c(
+    "Installed fastRhockey is missing {.fun {.missing_api}}.",
+    "x" = "Scraping now would write games with those blocks silently absent.",
+    "i" = "The installed package is stale -- bump {.field cache-version} in
+           .github/workflows/scrape_pwhl_raw.yml to force a reinstall from main."
+  ))
+}
+
 
 RAW_REPO <- "sportsdataverse/fastRhockey-pwhl-raw"
 RAW_BRANCH <- "main"
@@ -93,6 +118,59 @@ PATH_FINAL <- "pwhl/json/final"
     path = path,
     auto_unbox = TRUE, null = "null", na = "null"
   )
+}
+
+#' Is a captured JSON block actually populated?
+#' @noRd
+.block_populated <- function(x) {
+  if (is.null(x)) {
+    return(FALSE)
+  }
+  if (is.data.frame(x)) {
+    return(nrow(x) > 0)
+  }
+  length(x) > 0
+}
+
+#' Carry forward blocks the fresh build lost.
+#'
+#' The final JSON is written as a whole-file overwrite, and every enrichment
+#' block (pbp, shifts, skaters, ...) is built inside a `tryCatch` that degrades
+#' to a missing field. So one failing dependency silently *deletes* good data
+#' from a previously-captured game -- which is what happened on 2026-07-18, when
+#' a stale cached fastRhockey lacking `pwhl_game_shifts` wiped the shifts block
+#' from all 133 games of the 2026 season.
+#'
+#' A completed game's blocks are immutable history: if a prior capture has data
+#' the new build does not, keep the old data rather than regressing the file.
+#' @noRd
+.merge_with_existing <- function(new_data, path, gid) {
+  if (!file.exists(path)) {
+    return(new_data)
+  }
+  old <- tryCatch(
+    jsonlite::parse_json(readLines(path, warn = FALSE) %>% paste(collapse = ""),
+      simplifyVector = TRUE
+    ),
+    error = function(e) NULL
+  )
+  if (is.null(old)) {
+    return(new_data)
+  }
+
+  preserved <- character(0)
+  for (key in names(old)) {
+    if (.block_populated(old[[key]]) && !.block_populated(new_data[[key]])) {
+      new_data[[key]] <- old[[key]]
+      preserved <- c(preserved, key)
+    }
+  }
+  if (length(preserved) > 0) {
+    cli::cli_alert_warning(
+      "Game {gid}: rebuild lost {.field {preserved}} -- kept the previous capture."
+    )
+  }
+  new_data
 }
 
 
@@ -700,7 +778,10 @@ download_game <- function(gid, process = TRUE,
       }
     )
     if (!is.null(final_data)) {
-      .write_json(final_data, glue("{path_final}/{gid}.json"))
+      final_path <- glue("{path_final}/{gid}.json")
+      # never let a failed enrichment step delete blocks a prior capture already had
+      final_data <- .merge_with_existing(final_data, final_path, gid)
+      .write_json(final_data, final_path)
     }
   }
 }
