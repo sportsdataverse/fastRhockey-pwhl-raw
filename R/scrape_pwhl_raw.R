@@ -67,10 +67,14 @@ cli::cli_alert_info("=== PWHL Raw Scraper started ===")
 # Each enrichment block below is wrapped in a `tryCatch` so one bad game cannot
 # abort a season. That is right for per-game faults, but it also means a
 # *systematically* missing dependency degrades every game in silence: on
-# 2026-07-18 a cached fastRhockey without `pwhl_game_shifts` dropped the shifts
-# block from all 133 games of the 2026 season, and the whole-file overwrite made
-# the loss permanent. `setup-r-dependencies` keys its cache on DESCRIPTION, which
-# never changes for a GitHub remote, so a stale package can persist for months.
+# 2026-07-18 the scheduled run used an installed fastRhockey without
+# `pwhl_game_shifts`, dropping the shifts block from all 133 games of the 2026
+# season, and the whole-file overwrite made the loss permanent.
+#
+# Staleness is invisible by inspection here: fastRhockey has been version 1.0.0
+# across all of these API additions, so neither a human nor a version-keyed cache
+# can tell a months-old install from a current one. Only the presence of the
+# functions themselves is a reliable signal -- hence this check.
 #
 # Fail loudly and up front instead: a missing function is an environment bug, not
 # a data condition, and it should never reach the writers.
