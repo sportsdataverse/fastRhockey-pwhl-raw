@@ -3,7 +3,9 @@ name = "pwhl-raw-scrape"
 version = "0.1.0"
 description = "PWHL raw scraper repo (R scraper; python here only gates scripts + workflows)"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+    "sportsdataverse",
+]
 
 [dependency-groups]
 dev = ["pytest>=8.0", "ruff>=0.6", "pyyaml>=6.0"]
@@ -11,8 +13,12 @@ dev = ["pytest>=8.0", "ruff>=0.6", "pyyaml>=6.0"]
 [tool.uv]
 package = false
 
+[tool.uv.sources]
+sportsdataverse = { git = "https://github.com/sportsdataverse/sportsdataverse-py", rev = "main" }
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["python"]
 
 [tool.ruff]
 line-length = 120
