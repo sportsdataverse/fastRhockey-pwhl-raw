@@ -67,7 +67,7 @@ existing JSON files. Output paths the scraper writes:
 
 ```
 R/
-  scrape_pwhl_raw.R           # The single R entry point — pulls schedule + per-game JSON
+  scrape_pwhl_raw.R           # R entry point (scheduled production; python port: pwhl_raw_01..03 + pwhl_raw/)
 scripts/
   daily_pwhl_scraper.sh       # Bash wrapper for cron / CI; loops seasons, commits per season
 pwhl/                         # Committed scraped output (consumed downstream)

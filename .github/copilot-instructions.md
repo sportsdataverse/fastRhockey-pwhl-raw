@@ -2,7 +2,7 @@
 
 ## Project Context
 
-This repo is the R HockeyTech-scrape stage for the PWHL. It writes
+This repo is the HockeyTech-scrape stage for the PWHL (R production scraper + a numbered python port: `python/pwhl_raw_01_schedules.py` / `02_games` / `03_link_master` over the `pwhl_raw` package, flat parsers oracle-parity-tested against committed finals). It writes
 per-game JSON under `pwhl/json/raw/{game_id}.json` and
 `pwhl/json/final/{game_id}.json`, per-season schedules under
 `pwhl/schedules/{rds,parquet}/`, plus a combined
@@ -23,7 +23,7 @@ there, not in this repo.
 - Branch from `main`; `main` is the default and release branch.
 - The CI entry point is
   `scripts/daily_pwhl_scraper.sh -s <START> -e <END> -r <TRUE|FALSE>`.
-- The single R entry point is `R/scrape_pwhl_raw.R`.
+- The R entry point is `R/scrape_pwhl_raw.R` (scheduled production); the python port runs via `scripts/pwhl_raw.sh` or `python -m pwhl_raw_01_schedules` etc.
 - Season args refer to **end year** (e.g. `2026` = 2025-26 season).
 - Don't reorganize the `pwhl/` output tree without aligning the
   downstream parsers in `fastRhockey-pwhl-data`.
