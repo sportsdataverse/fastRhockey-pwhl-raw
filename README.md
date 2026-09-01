@@ -19,6 +19,7 @@ flowchart TB;
     subgraph A[fastRhockey-pwhl-raw];
         direction TB;
         A1[scripts/daily_pwhl_scraper.sh]-->A2[R/scrape_pwhl_raw.R];
+        A3[scripts/pwhl_raw.sh]-->A4[python/pwhl_raw_01_schedules.py ... 03_link_master.py];
     end;
 
     subgraph B[fastRhockey-pwhl-data];
@@ -74,6 +75,7 @@ pwhl/
 
 - **HockeyTech statviewfeed** — play-by-play, game summary, schedule
 - **HockeyTech gc feed** — game center summary (scoring, penalties, shots, three stars)
+- **HockeyTech modulekit** — game shifts (`view=gameshifts`)
 
 ## Reports & explainers
 
