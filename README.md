@@ -75,8 +75,16 @@ pwhl/
 - **HockeyTech statviewfeed** — play-by-play, game summary, schedule
 - **HockeyTech gc feed** — game center summary (scoring, penalties, shots, three stars)
 
-## Automation
+## Automation & status
 
+<!-- BEGIN GENERATED: status -->
+
+| workflow | schedule | last run |
+|---|---|---|
+| [![fastRhockey_pwhl_data_trigger.yml](https://github.com/sportsdataverse/fastRhockey-pwhl-raw/actions/workflows/fastRhockey_pwhl_data_trigger.yml/badge.svg)](https://github.com/sportsdataverse/fastRhockey-pwhl-raw/actions/workflows/fastRhockey_pwhl_data_trigger.yml) | on push / dispatch | 2026-07-18 |
+| [![scrape_pwhl_raw.yml](https://github.com/sportsdataverse/fastRhockey-pwhl-raw/actions/workflows/scrape_pwhl_raw.yml/badge.svg)](https://github.com/sportsdataverse/fastRhockey-pwhl-raw/actions/workflows/scrape_pwhl_raw.yml) | daily 08:00 UTC in Nov-Dec; daily 08:00 UTC in Jan-Mar; daily 08:00 UTC in Apr-May | 2026-05-31 |
+
+<!-- END GENERATED: status -->
 - **Scraping workflow** runs daily during the PWHL season (Nov-May)
 - On push, triggers the [fastRhockey-pwhl-data](https://github.com/sportsdataverse/fastRhockey-pwhl-data) repo to compile datasets
 
