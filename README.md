@@ -57,19 +57,32 @@ flowchart TB;
 | [`pwhl_rosters`](https://github.com/sportsdataverse/sportsdataverse-data/releases/tag/pwhl_rosters) | PWHL rosters |
 | [`pwhl_schedules`](https://github.com/sportsdataverse/sportsdataverse-data/releases/tag/pwhl_schedules) | PWHL schedules |
 
-## Structure
+## Repository layout
+
+<!-- BEGIN GENERATED: layout -->
 
 ```
-pwhl/
-├── json/
-│   ├── raw/              # Raw HockeyTech API responses per game
-│   └── final/            # Processed via fastRhockey pipeline (PBP, box scores, game info)
-├── schedules/
-│   ├── rds/              # Season schedules (pwhl_schedule_{year}.rds)
-│   └── parquet/          # Season schedules in parquet format
-├── pwhl_schedule_master.rds      # Combined schedule across all seasons
-└── pwhl_schedule_master.parquet
+fastRhockey-pwhl-raw/
+├── R/   # R pipeline stages and publish toolchain
+│   └── scrape_pwhl_raw.R
+├── logs/   # per-run logs (gitignored where large)
+├── pwhl/
+│   ├── json/
+│   └── schedules/
+├── python/   # Python pipeline stages, numbered in build order
+│   ├── pwhl_raw/
+│   ├── pwhl_raw_01_schedules.py
+│   ├── pwhl_raw_02_games.py
+│   └── pwhl_raw_03_link_master.py
+├── scripts/   # bash drivers (the daily/weekly entry points)
+│   ├── daily_pwhl_scraper.sh
+│   └── pwhl_raw.sh
+└── tests/   # test suite
+    ├── test_flat_parsers.py
+    └── test_scripts_and_workflows.py
 ```
+
+<!-- END GENERATED: layout -->
 
 ## Data Sources
 
