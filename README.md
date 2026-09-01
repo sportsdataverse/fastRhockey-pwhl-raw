@@ -75,6 +75,16 @@ pwhl/
 - **HockeyTech statviewfeed** — play-by-play, game summary, schedule
 - **HockeyTech gc feed** — game center summary (scoring, penalties, shots, three stars)
 
+## Reports & explainers
+
+<!-- BEGIN GENERATED: reports -->
+
+| Report | What it is | Last updated |
+|---|---|---|
+| _none yet_ | — | — |
+
+<!-- END GENERATED: reports -->
+
 ## Automation & status
 
 <!-- BEGIN GENERATED: status -->
