@@ -33,7 +33,15 @@ RAW_KEYS = ("pbp_raw", "summary_raw", "gc_raw", "shifts_raw")
 
 
 def _fixture(gid: int) -> dict:
-    return json.loads((ROOT / "pwhl" / "json" / "final" / f"{gid}.json").read_text(encoding="utf-8"))
+    path = ROOT / "pwhl" / "json" / "final" / f"{gid}.json"
+    # Named explicitly rather than skipped: CI sparse-checks-out only the
+    # FIXTURE_GIDS payloads (the full tree is ~295 MB), so a new gid here needs
+    # a matching line in .github/workflows/tests.yml. Skipping instead would
+    # turn that omission into a silent vacuous pass.
+    assert path.exists(), (
+        f"missing fixture {path.relative_to(ROOT)} -- add it to the sparse-checkout list in .github/workflows/tests.yml"
+    )
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def _values_match(a, b) -> bool:
