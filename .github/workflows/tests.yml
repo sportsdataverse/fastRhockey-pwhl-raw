@@ -17,6 +17,14 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with:
+          # This job runs PR-authored code (`pytest`, plus dependency build
+          # hooks under `uv sync`) and pushes nothing, so the checkout token has
+          # no reason to stay in .git/config afterwards. Without this, v5's
+          # default leaves an `http.https://github.com/.extraheader` credential
+          # in the workspace for that code to read (zizmor `artipacked`,
+          # CWE-522). Do NOT copy this line into a workflow that commits,
+          # pushes, or uploads a release -- those need the persisted credential.
+          persist-credentials: false
           # `python` holds the pwhl_raw package the parser tests import
           # (pyproject sets `pythonpath = ["python"]`); without it collection
           # died on `ModuleNotFoundError: No module named 'pwhl_raw'` and the
