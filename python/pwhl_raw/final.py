@@ -12,6 +12,7 @@ from __future__ import annotations
 
 from typing import Optional
 
+from pwhl_raw.client import cast_ids_int64
 from pwhl_raw.raw import build_raw_json
 
 _SECTION_ORDER = [
@@ -37,7 +38,8 @@ def _records(df) -> Optional[list[dict]]:
     try:
         if df.height == 0:
             return None
-        return df.to_dicts()
+        # ids as JSON integers (null when missing), whatever dtype sdv-py returned
+        return cast_ids_int64(df).to_dicts()
     except AttributeError:
         return None
 

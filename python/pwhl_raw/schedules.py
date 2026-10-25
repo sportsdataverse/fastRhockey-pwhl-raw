@@ -11,6 +11,8 @@ from pathlib import Path
 
 import polars as pl
 
+from pwhl_raw.client import cast_ids_int64
+
 RAW_REPO = "sportsdataverse/fastRhockey-pwhl-raw"
 RAW_BRANCH = "main"
 PATH_FINAL = "pwhl/json/final"
@@ -48,6 +50,7 @@ def link_schedule(sched: pl.DataFrame, final_dir: str | Path = PATH_FINAL) -> pl
 def write_season(sched: pl.DataFrame, season_year: int, out_root: str | Path = "pwhl") -> None:
     from sportsdataverse._rds import write_rds
 
+    sched = cast_ids_int64(sched)
     out = Path(out_root)
     (out / "schedules" / "parquet").mkdir(parents=True, exist_ok=True)
     (out / "schedules" / "rds").mkdir(parents=True, exist_ok=True)
@@ -69,7 +72,9 @@ def build_master(out_root: str | Path = "pwhl") -> pl.DataFrame:
     files = sorted((out / "schedules" / "parquet").glob("pwhl_schedule_*.parquet"))
     if not files:
         return pl.DataFrame()
-    master = pl.concat([pl.read_parquet(f) for f in files], how="diagonal_relaxed").sort("game_date", descending=True)
+    master = pl.concat([cast_ids_int64(pl.read_parquet(f)) for f in files], how="diagonal_relaxed").sort(
+        "game_date", descending=True
+    )
     master.write_parquet(out / "pwhl_schedule_master.parquet", compression="gzip")
     write_rds(master, out / "pwhl_schedule_master.rds", cls=["tbl_df", "tbl", "data.frame"])
     return master

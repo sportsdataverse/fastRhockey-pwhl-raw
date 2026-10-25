@@ -71,3 +71,36 @@ def merge_with_existing(new_data: dict, path: str | Path, gid: int) -> dict:
     if preserved:
         print(f"Game {gid}: rebuild lost {preserved} -- kept the previous capture.")
     return new_data
+
+
+def is_id_col(name: str) -> bool:
+    """The id columns cast at every write: ``id`` and every ``*_id``."""
+    return name == "id" or name.endswith("_id")
+
+
+def cast_ids_int64(df: Any) -> Any:
+    """Cast every id column to Int64, whatever dtype sdv-py returned (String before #1003, Int64 after).
+
+    Strict: whitespace is stripped, ``""`` and NaN become null, a whole-number float is accepted, and
+    anything else (``"12a"``, ``1.5``) raises ``ValueError`` naming the column. Nulls stay null.
+    """
+    import polars as pl
+
+    out = {}
+    for c in (c for c in df.columns if is_id_col(c)):
+        s = df[c]
+        if s.dtype == pl.String:
+            s = s.str.strip_chars()
+            s = pl.select(pl.when(s == "").then(None).otherwise(s)).to_series().alias(c)
+        elif s.dtype.is_float():
+            s = s.fill_nan(None)
+            if (s.drop_nulls() % 1 != 0).any():
+                raise ValueError(f"id column {c!r} has non-integer values: {s.filter(s % 1 != 0).head(5).to_list()}")
+        elif not (s.dtype.is_integer() or s.dtype == pl.Null):
+            raise ValueError(f"id column {c!r} has unsupported dtype {s.dtype}")
+        try:
+            out[c] = s.cast(pl.Int64, strict=True)
+        except pl.exceptions.InvalidOperationError as exc:
+            bad = s.filter(s.cast(pl.Int64, strict=False).is_null() & s.is_not_null()).head(5).to_list()
+            raise ValueError(f"id column {c!r} has non-integer values: {bad}") from exc
+    return df.with_columns(**out) if out else df
