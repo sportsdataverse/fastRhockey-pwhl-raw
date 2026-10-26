@@ -50,3 +50,7 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+# Python bytecode caches
+__pycache__/
+*.py[cod]
