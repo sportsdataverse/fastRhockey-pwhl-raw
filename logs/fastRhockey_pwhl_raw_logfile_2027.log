@@ -1,0 +1,30 @@
+ℹ === PWHL Raw Scraper started ===
+
+── Processing 2027 PWHL season ─────────────────────────────────────────────────
+ℹ Fetching 2027 PWHL schedule
+2026-11-01 03:00:21.933954: Invalid season or no schedule data available! Try a season from 2023 onwards!
+ℹ 0 completed games in schedule
+ℹ Fetching 2027 PWHL schedule! No completed games. Skipping season.
+ℹ Fetching 2027 PWHL schedule✔ Fetched 2027 PWHL schedule [1.6s]
+
+ℹ Building master schedule
+Error in `dplyr::bind_rows()`:
+! Can't combine `..1$game_id` <integer> and `..4$game_id` <character>.
+Backtrace:
+     ▆
+  1. ├─purrr::map_dfr(sched_files, readRDS) %>% ...
+  2. ├─dplyr::arrange(., dplyr::desc(game_date))
+  3. ├─purrr::map_dfr(sched_files, readRDS)
+  4. │ └─dplyr::bind_rows(res, .id = .id)
+  5. │   └─vctrs::vec_rbind(!!!dots, .names_to = .id, .error_call = current_env())
+  6. └─vctrs (local) `<fn>`() at vctrs/R/bind.R:194:3
+  7.   └─vctrs::vec_default_ptype2(...)
+  8.     ├─base::withRestarts(...) at vctrs/R/type2.R:178:3
+  9.     │ └─base (local) withOneRestart(expr, restarts[[1L]])
+ 10.     │   └─base (local) doWithOneRestart(return(expr), restart)
+ 11.     └─vctrs::stop_incompatible_type(...) at vctrs/R/type2.R:178:3
+ 12.       └─vctrs:::stop_incompatible(...) at vctrs/R/conditions.R:146:3
+ 13.         └─vctrs:::stop_vctrs(...) at vctrs/R/conditions.R:95:3
+ 14.           └─rlang::abort(message, class = c(class, "vctrs_error"), ..., call = call) at vctrs/R/conditions.R:65:3
+Execution halted
+pushed: PWHL Raw Updated (Start: 2027 End: 2027) (attempt 1)
