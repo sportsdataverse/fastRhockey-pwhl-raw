@@ -2,10 +2,10 @@
 
 ── Processing 2027 PWHL season ─────────────────────────────────────────────────
 ℹ Fetching 2027 PWHL schedule
-2026-11-03 03:00:20.277888: Invalid season or no schedule data available! Try a season from 2023 onwards!
+2026-11-04 03:00:17.00763: Invalid season or no schedule data available! Try a season from 2023 onwards!
 ℹ 0 completed games in schedule
 ℹ Fetching 2027 PWHL schedule! No completed games. Skipping season.
-ℹ Fetching 2027 PWHL schedule✔ Fetched 2027 PWHL schedule [1.6s]
+ℹ Fetching 2027 PWHL schedule✔ Fetched 2027 PWHL schedule [1.4s]
 
 ℹ Building master schedule
 Error in `dplyr::bind_rows()`:
