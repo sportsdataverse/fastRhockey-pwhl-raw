@@ -2,10 +2,10 @@
 
 ── Processing 2027 PWHL season ─────────────────────────────────────────────────
 ℹ Fetching 2027 PWHL schedule
-2026-11-11 03:00:13.367907: Invalid season or no schedule data available! Try a season from 2023 onwards!
+2026-11-12 03:00:16.224447: Invalid season or no schedule data available! Try a season from 2023 onwards!
 ℹ 0 completed games in schedule
 ℹ Fetching 2027 PWHL schedule! No completed games. Skipping season.
-ℹ Fetching 2027 PWHL schedule✔ Fetched 2027 PWHL schedule [1.1s]
+ℹ Fetching 2027 PWHL schedule✔ Fetched 2027 PWHL schedule [1.3s]
 
 ℹ Building master schedule
 Error in `dplyr::bind_rows()`:
@@ -27,4 +27,4 @@ Backtrace:
  13.         └─vctrs:::stop_vctrs(...) at vctrs/R/conditions.R:95:3
  14.           └─rlang::abort(message, class = c(class, "vctrs_error"), ..., call = call) at vctrs/R/conditions.R:65:3
 Execution halted
-nothing to commit for: PWHL Raw Updated (Start: 2027 End: 2027)
+pushed: PWHL Raw Updated (Start: 2027 End: 2027) (attempt 1)
