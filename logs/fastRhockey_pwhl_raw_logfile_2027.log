@@ -2,7 +2,11 @@
 
 ── Processing 2027 PWHL season ─────────────────────────────────────────────────
 ℹ Fetching 2027 PWHL schedule
-2026-11-15 03:00:29.108019: Invalid season or no schedule data available! Try a season from 2023 onwards!
+2026-11-16 03:00:17.478375: Could not retrieve PWHL season data from API. Falling back to hardcoded seasons. Error: lexical error: invalid char in json text.
+                                       Array (     [0] => Array       
+                     (right here) ------^
+
+2026-11-16 03:00:17.485723: Invalid season or no schedule data available! Try a season from 2023 onwards!
 ℹ 0 completed games in schedule
 ℹ Fetching 2027 PWHL schedule! No completed games. Skipping season.
 ℹ Fetching 2027 PWHL schedule✔ Fetched 2027 PWHL schedule [1.3s]
