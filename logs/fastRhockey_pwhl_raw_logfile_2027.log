@@ -2,14 +2,10 @@
 
 ── Processing 2027 PWHL season ─────────────────────────────────────────────────
 ℹ Fetching 2027 PWHL schedule
-2026-11-16 03:00:17.478375: Could not retrieve PWHL season data from API. Falling back to hardcoded seasons. Error: lexical error: invalid char in json text.
-                                       Array (     [0] => Array       
-                     (right here) ------^
-
-2026-11-16 03:00:17.485723: Invalid season or no schedule data available! Try a season from 2023 onwards!
+2026-11-17 03:00:13.896898: Invalid season or no schedule data available! Try a season from 2023 onwards!
 ℹ 0 completed games in schedule
 ℹ Fetching 2027 PWHL schedule! No completed games. Skipping season.
-ℹ Fetching 2027 PWHL schedule✔ Fetched 2027 PWHL schedule [1.3s]
+ℹ Fetching 2027 PWHL schedule✔ Fetched 2027 PWHL schedule [1.5s]
 
 ℹ Building master schedule
 Error in `dplyr::bind_rows()`:
@@ -31,4 +27,4 @@ Backtrace:
  13.         └─vctrs:::stop_vctrs(...) at vctrs/R/conditions.R:95:3
  14.           └─rlang::abort(message, class = c(class, "vctrs_error"), ..., call = call) at vctrs/R/conditions.R:65:3
 Execution halted
-nothing to commit for: PWHL Raw Updated (Start: 2027 End: 2027)
+pushed: PWHL Raw Updated (Start: 2027 End: 2027) (attempt 1)
